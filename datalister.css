@@ -1,0 +1,44 @@
+html,
+body,
+#x-form,
+#x-input,
+#x-datalist,
+#x-container {
+  box-sizing: border-box;
+}
+
+#x-input {
+  flex: 1;
+  margin: 1em;
+}
+
+#x-label {
+  font-weight: bold;
+}
+
+#x-input:focus {
+}
+
+#x-form {
+  display: flex;
+  align-items: baseline;
+  background: white;
+  margin: 0;
+}
+
+#x-container {
+  background: white;
+  position: fixed;
+  padding: 0.5em;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  width: 800px;
+  display: grid;
+  grid-template-rows: min-content auto;
+}
+
+#x-iframe {
+  height: 100%;
+  width: 100%;
+}

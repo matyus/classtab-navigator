@@ -2,15 +2,16 @@
   "manifest_version": 3,
   "name": "Classtab Navigator",
   "version": "1.0",
-  "description": "Easily filter and open a link",
+  "description": "Easily filter and open a tab!",
   "icons": {
-    "128": "icon_128.png",
-    "16": "icon_16.png"
+    "128": "icon_note_128.png",
+    "16": "icon_note_16.png"
   },
   "content_scripts": [{
     "matches": [
-      "*://classtab.org/*.htm*",
-      "*://*.classtab.org/*.htm*"],
-    "js": ["datalister.js"]
+      "*://classtab.org/index*.htm*",
+      "*://*.classtab.org/index*.htm*"],
+    "js": ["datalister.js"],
+    "css": ["datalister.css"]
   }]
 }

@@ -12,11 +12,15 @@ function buildDatalistFromAnchors(anchors) {
   const optionsFragment = document.createDocumentFragment()
 
   for (i = 0, l = anchors.length; i < l; i++) {
-    const option = convertAnchorToOption(anchors[i])
+    const anchor = anchors[i]
+
+    anchor.addEventListener('click', handleAnchorClick, false)
+
+    const option = convertAnchorToOption(anchor)
     optionsFragment.appendChild(option)
   }
 
-  datalist.id = 'x-links-datalist'
+  datalist.id = 'x-datalist'
   datalist.append(optionsFragment)
 
   return datalist
@@ -25,32 +29,82 @@ function buildDatalistFromAnchors(anchors) {
 function buildInputForDatalist(datalist) {
   const input = document.createElement('input')
 
-  input.style.setProperty('box-sizing', 'border-box')
-  input.style.setProperty('position', 'fixed')
-  input.style.setProperty('top', 0)
-  input.style.setProperty('left', 0)
-  input.style.setProperty('margin', '1em')
-  input.style.setProperty('width', '100%')
-  input.style.setProperty('font-size', '3em')
-
+  input.id = 'x-input'
+  input.setAttribute('autofocus', 'autofocus')
   input.setAttribute('list', datalist.id)
 
   return input
 }
 
-function handleSelection(event) {
-  window.location = event.target.value
+function buildForm(input) {
+  const form = document.createElement('form')
+  form.id = 'x-form'
+  form.addEventListener('submit', handleSubmit, false)
+
+  const label = document.createElement('label')
+  label.id = 'x-label'
+  label.innerHTML = 'Search'
+  label.setAttribute('for', input.id)
+
+  const submit = document.createElement('button')
+  submit.setAttribute('type', 'submit')
+  submit.innerHTML = 'Open'
+
+  form.appendChild(label)
+  form.appendChild(input)
+  form.appendChild(submit)
+
+  return form
+}
+
+function buildIframe() {
+  const iframe = document.createElement('iframe')
+  iframe.id = 'x-iframe'
+
+  return iframe
+}
+
+function buildApp() {
+  const container = document.createElement('div')
+  container.id = 'x-container'
+
+  // find all the links on the page that point to .txt files
+  const anchors = document.querySelectorAll('[href$=txt]')
+  const datalist = buildDatalistFromAnchors(anchors)
+  const input = buildInputForDatalist(datalist)
+  const form = buildForm(input)
+  const iframe = buildIframe()
+
+  container.appendChild(datalist)
+  container.appendChild(form)
+  container.appendChild(iframe)
+
+  return container
+}
+
+function handleSubmit(event) {
+  event.preventDefault()
+
+  const { value } = event.target['x-input']
+
+  // sommetimes the value can be whatever the user typed
+  // rather than a value from the datalist
+  if (/http(.+)classtab.org(.+).txt/.test(value)) {
+    document.getElementById('x-iframe').src = value
+  }
+}
+
+function handleAnchorClick(event) {
+  event.preventDefault();
+
+  document.getElementById('x-iframe').src = event.target.href
+
+  return false
 }
 
 function init() {
-  const anchors = document.querySelectorAll('[href$=txt]')
-
-  const datalist = buildDatalistFromAnchors(anchors)
-  document.body.prepend(datalist)
-
-  const input = buildInputForDatalist(datalist)
-  input.addEventListener('change', handleSelection, false)
-  document.body.prepend(input)
+  const container = buildApp()
+  document.body.prepend(container)
 }
 
 init()
