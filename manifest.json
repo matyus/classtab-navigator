@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Classtab Navigator",
+  "version": "1.0",
+  "description": "Easily filter and open a link",
+  "icons": {
+    "128": "icon_128.png",
+    "16": "icon_16.png"
+  },
+  "content_scripts": [{
+    "matches": [
+      "*://classtab.org/*.htm*",
+      "*://*.classtab.org/*.htm*"],
+    "js": ["datalister.js"]
+  }]
+}
