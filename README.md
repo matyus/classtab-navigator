@@ -1,6 +1,6 @@
 # Classtab Navigator
 
-![](./assets/filtered-datalist.png)
+![Screenshot](./assets/filtered-datalist.png)
 
 ## About
 
