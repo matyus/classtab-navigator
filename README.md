@@ -1,5 +1,7 @@
 # Classtab Navigator
 
+![](./assets/filtered-datalist.png)
+
 ## About
 
 This is a browser extension for [classtab.org](https://classtab.org/). It makes
