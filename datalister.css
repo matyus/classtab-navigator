@@ -40,8 +40,8 @@ body,
 }
 
 #x-iframe {
-  height: 100%;
-  width: 100%;
+  justify-self: stretch;
+  align-self: stretch;
 }
 
 #x-credit:link {
