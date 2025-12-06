@@ -64,6 +64,17 @@ function buildIframe() {
   return iframe
 }
 
+function buildCredit() {
+  const credit = document.createElement('a')
+
+  credit.setAttribute('href','https://github.com/matyus/classtab-navigator')
+  credit.setAttribute('target', '_blank')
+  credit.id = 'x-credit'
+  credit.innerHTML = 'Source code'
+
+  return credit
+}
+
 function buildApp() {
   const container = document.createElement('div')
   container.id = 'x-container'
@@ -74,10 +85,12 @@ function buildApp() {
   const input = buildInputForDatalist(datalist)
   const form = buildForm(input)
   const iframe = buildIframe()
+  const credit = buildCredit()
 
   container.appendChild(datalist)
   container.appendChild(form)
   container.appendChild(iframe)
+  container.append(credit)
 
   return container
 }
@@ -103,8 +116,8 @@ function handleAnchorClick(event) {
 }
 
 function init() {
-  const container = buildApp()
-  document.body.prepend(container)
+  const app = buildApp()
+  document.body.prepend(app)
 }
 
 init()

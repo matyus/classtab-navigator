@@ -1,6 +1,7 @@
 html,
 body,
 #x-form,
+#x-iframe,
 #x-input,
 #x-datalist,
 #x-container {
@@ -35,10 +36,15 @@ body,
   right: 0;
   width: 800px;
   display: grid;
-  grid-template-rows: min-content auto;
+  grid-template-rows: min-content auto 10px;
 }
 
 #x-iframe {
   height: 100%;
   width: 100%;
+}
+
+#x-credit:link {
+  text-decoration: none;
+  font-size: 13px;
 }
