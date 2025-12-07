@@ -33,6 +33,16 @@ surfacing the tabs you want a bit easier and faster.
 Maybe create an **Issue** and then Fork the repo and Open a Pull Request and
 satisfies what you described in the Issue.
 
+## Pushing revisions
+
+1. Remember to bump the `version` in [`src/manifest.json`](./src/manifest.json).
+1. Remember to `git tag v0.0.0` and create a Release appropriately.
+1. Run the build script that gets uploaded to the Chrome Web Store:
+
+      ./script/build.sh
+
+
+
 ## Credits
 
 Icon created by Rica Hollmann from Noun Project.
