@@ -1,6 +1,6 @@
 root = true
 
-[*.{md,js,json,css}]
+[*.{html,md,js,json,css}]
 end_of_line = lf
 insert_final_newline = true
 indent_size = 2
