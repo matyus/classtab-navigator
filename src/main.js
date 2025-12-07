@@ -1,8 +1,8 @@
-function convertAnchorToOption(link) {
+function convertAnchorToOption(anchor) {
   const option = document.createElement('option')
 
-  option.value = link.href
-  option.text = link.text
+  option.value = anchor.href
+  option.text = anchor.text
 
   return option
 }
