@@ -1,5 +1,8 @@
 # Classtab Navigator
 
+[Install Chrome
+Extension](https://chromewebstore.google.com/detail/classtab-navigator/hgfhelajcmhdicdinikicoionaggpkkc?authuser=0&hl=en&pli=1)
+
 ![Screenshot](./assets/filtered-datalist.png)
 
 ## About
