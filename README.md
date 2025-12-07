@@ -16,7 +16,7 @@ surfacing the tabs you want a bit easier and faster.
 
 1. Clone this repo
 1. Visit `chrome://extensions` in a tab and click **Load unpacked**
-1. Choose this the folder for this repo
+1. Choose this folder for this repo
 1. Visit [classtab.org](https://classtab.org/)
 
 ### Safari browser
@@ -25,7 +25,7 @@ surfacing the tabs you want a bit easier and faster.
 1. Go to **Safari > Settings… > Developer** and enable "Allow unsigned
    extensions".
 1. Then click **Add Temporary Extension…** >
-1. Choose this the folder for this repo
+1. Choose this folder for this repo
 1. Visit [classtab.org](https://classtab.org/)
 
 ## Contributing

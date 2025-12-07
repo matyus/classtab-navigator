@@ -3,7 +3,6 @@ console.log('background.js')
 function toggleApp() {
   const app = document.getElementById('x-app')
 
-
   if (app.hidden) {
     app.removeAttribute('hidden')
     chrome.storage.local.set({ enabled: true });

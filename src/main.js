@@ -114,11 +114,16 @@ function handleSubmit(event) {
 }
 
 function handleAnchorClick(event) {
-  event.preventDefault();
+  const enabled = !document.getElementById('x-app').hidden
 
-  document.getElementById('x-iframe').src = event.target.href
+  // only hijack the click handling if the app is enabled at the time this event occurs
+  if (enabled) {
+    event.preventDefault();
 
-  return false
+    document.getElementById('x-iframe').src = event.target.href
+
+    return false
+  }
 }
 
 async function init() {
