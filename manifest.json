@@ -1,17 +1,25 @@
 {
   "manifest_version": 3,
   "name": "Classtab Navigator",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Easily filter and open a tab!",
   "icons": {
     "128": "icon_note_128.png",
     "16": "icon_note_16.png"
   },
+  "action": {
+    "default_title": "Click to toggle"
+  },
+  "permissions": ["activeTab", "scripting", "storage"],
   "content_scripts": [{
     "matches": [
       "*://classtab.org/index*.htm*",
-      "*://*.classtab.org/index*.htm*"],
-    "js": ["datalister.js"],
-    "css": ["datalister.css"]
-  }]
+      "*://*.classtab.org/index*.htm*"
+    ],
+    "js": ["main.js"],
+    "css": ["main.css"]
+  }],
+  "background": {
+    "service_worker": "background.js"
+  }
 }

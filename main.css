@@ -4,7 +4,7 @@ body,
 #x-iframe,
 #x-input,
 #x-datalist,
-#x-container {
+#x-app {
   box-sizing: border-box;
 }
 
@@ -27,7 +27,7 @@ body,
   margin: 0;
 }
 
-#x-container {
+#x-app {
   background: white;
   position: fixed;
   padding: 0.5em;
@@ -37,6 +37,10 @@ body,
   width: 800px;
   display: grid;
   grid-template-rows: min-content auto 10px;
+}
+
+#x-app[hidden] {
+  display: none;
 }
 
 #x-iframe {
