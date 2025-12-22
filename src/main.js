@@ -156,8 +156,8 @@
     // sommetimes the value can be whatever the user typed
     // rather than a value from the datalist
     if (/http(.+)classtab.org(.+).txt/.test(value)) {
-      document.getElementById('x-iframe').src = value
-      document.getElementById('x-selected').innerHTML = value
+      setIframeSource(value)
+      setSelectedLink(value)
     }
   }
 
@@ -168,11 +168,8 @@
     if (enabled) {
       event.preventDefault();
 
-      document.getElementById('x-iframe').src = event.target.href
-
-      const link = document.getElementById('x-selected')
-      link.setAttribute('href', event.target.href)
-      link.innerHTML = event.target.href.replace('https://www.classtab.org/', '')
+      setIframeSource(event.target.href)
+      setSelectedLink(event.target.href)
 
       return false
     }
@@ -192,6 +189,17 @@
         event.target.innerHTML = 'Show tunings'
       }
     })
+  }
+
+  function setIframeSource(href) {
+    document.getElementById('x-iframe').src = href
+  }
+
+  function setSelectedLink(href) {
+    const link = document.getElementById('x-selected')
+    
+    link.setAttribute('href', href)
+    link.innerHTML = href.replace('https://www.classtab.org/', '')
   }
 
   function handleTuningInputChange(event) {
