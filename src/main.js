@@ -197,7 +197,7 @@
 
   function setSelectedLink(href) {
     const link = document.getElementById('x-selected')
-    
+
     link.setAttribute('href', href)
     link.innerHTML = href.replace('https://www.classtab.org/', '')
   }
@@ -216,8 +216,6 @@
     enabled = _enabled || false
     tunings = _tunings || {}
     tuningsMode = _tuningsMode || false
-
-    console.log('Tunings mode', tuningsMode)
 
     if (tuningsMode) {
       document.body.classList.remove('x-tunings-mode-off')
