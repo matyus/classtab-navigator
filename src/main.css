@@ -10,7 +10,7 @@ body,
 
 #x-input {
   flex: 1;
-  margin: 1em 0;
+  margin: 0.25em;
 }
 
 #x-label {
@@ -23,13 +23,8 @@ body,
 #x-form {
   display: flex;
   align-items: baseline;
-  background: white;
   margin: 0;
   gap: 1em;
-}
-
-.x-tunings-mode-off .x-tuning {
-  display: none;
 }
 
 
@@ -55,6 +50,12 @@ body,
   font-size: 13px;
   color: gray;
   text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 500px;
 }
 
 #x-iframe {
@@ -67,13 +68,16 @@ body,
   font-size: 13px;
 }
 
-#x-footer :first-child {
+#x-footer {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5em;
 }
 
-#x-footer :last-child {
+#x-footer span {
   display: flex;
+  align-items: baseline;
   gap: 0.5em;
 }
 
@@ -85,9 +89,36 @@ body,
   font-size: 13px;
   letter-spacing: 0.05em;
   margin-right: 0.5em;
-  border: none;
+  border: lightgray;
   color: gray;
 }
+
+.x-tuning:hover {
+  outline: 1px solid lightgray;
+}
+
+.x-tunings-mode-off .x-tuning {
+  display: none;
+}
+
+#x-tunings-button {
+  font-size: 12px;
+}
+
+#x-tunings-button::before {
+  content: '□';
+  margin-right: 0.25em;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.x-tunings-mode-off #x-tunings-button::before {
+  content: '◧';
+  margin-right: 0.25em;
+  font-size: 15px;
+  line-height: 1;
+}
+
 
 .x-favorite {
   background-color: chartreuse;

@@ -12,18 +12,23 @@
     return option
   }
 
-  function buildAnchor(href) {
+  function buildAnchor({ href, name, target, id }) {
     const anchor = document.createElement('a')
 
+    anchor.id = id
     anchor.href = href
-    anchor.innerHTML = href
+    anchor.innerHTML = name || href
+
+    if (target) {
+      anchor.setAttribute('target', target)
+    }
 
     return anchor
   }
 
   function buildTuningInput(anchor) {
-    const input = document.createElement('input')
     const path = anchor.href.replace('https://www.classtab.org/', '')
+    const input = document.createElement('input')
 
     input.value = tunings[path] ?? ''
     input.dataset.href = path
@@ -64,12 +69,6 @@
   }
 
   function buildForm(input) {
-    const tuningsButton = document.createElement('button')
-    tuningsButton.id = 'x-tunings-button'
-    tuningsButton.innerHTML = tuningsMode ? '□' : '◧'
-    tuningsButton.title = 'Toggle tunings mode'
-    tuningsButton.addEventListener('click', handleTuningsClick, false)
-
     const form = document.createElement('form')
     form.id = 'x-form'
     form.addEventListener('submit', handleSubmit, false)
@@ -83,7 +82,6 @@
     submit.setAttribute('type', 'submit')
     submit.innerHTML = 'Open'
 
-    form.appendChild(tuningsButton)
     form.appendChild(label)
     form.appendChild(input)
     form.appendChild(submit)
@@ -99,17 +97,29 @@
   }
 
   function buildFooter() {
+    const tuningsButton = document.createElement('button')
+    tuningsButton.id = 'x-tunings-button'
+    tuningsButton.innerHTML = tuningsMode ? 'Hide tunings' : 'Show tunings'
+    tuningsButton.title = 'Toggle tunings mode'
+    tuningsButton.addEventListener('click', handleTuningsClick, false)
+
+    const selected = buildAnchor({ href: '#', target: '_blank', name: '—', id: 'x-selected' })
+    const sourceCode = buildAnchor({ href: 'https://github.com/matyus/classtab-navigator', target: '_blank', name: 'Source code' })
+    const guitarTuner = buildAnchor({ href: 'https://www.pickupmusic.com/tools/guitar-tuner', target: '_blank', name: 'Guitar Tuner' })
+
+    const left = document.createElement('span')
+    left.appendChild(tuningsButton)
+    left.appendChild(selected)
+
+    const right = document.createElement('span')
+    right.appendChild(sourceCode)
+    right.appendChild(document.createTextNode(' | '))
+    right.appendChild(guitarTuner)
+
     const footer = document.createElement('span')
     footer.id = 'x-footer'
-    footer.innerHTML = `
-    <small>
-      <a href="#" target="_blank" id="x-selected">—</a>
-      <span>
-        <a href="https://github.com/matyus/classtab-navigator" target="_blank">Source code</a> |
-        <a href="https://www.pickupmusic.com/tools/guitar-tuner" target="_blank">Guitar Tuner</a>
-      </span>
-    </small>
-    `
+    footer.appendChild(left)
+    footer.appendChild(right)
 
     return footer
   }
@@ -159,7 +169,10 @@
       event.preventDefault();
 
       document.getElementById('x-iframe').src = event.target.href
-      document.getElementById('x-selected').replaceChildren(buildAnchor(event.target.href))
+
+      const link = document.getElementById('x-selected')
+      link.setAttribute('href', event.target.href)
+      link.innerHTML = event.target.href.replace('https://www.classtab.org/', '')
 
       return false
     }
@@ -172,23 +185,21 @@
     
     chrome.storage.local.set({ tuningsMode }, () => {
       if (tuningsMode) {
-        document.body.classList.add('x-tunings-mode-off')
-        event.target.innerHTML = '□'
-      } else {
         document.body.classList.remove('x-tunings-mode-off')
-        event.target.innerHTML = '◧'
+        event.target.innerHTML = 'Hide tunings'
+      } else {
+        document.body.classList.add('x-tunings-mode-off')
+        event.target.innerHTML = 'Show tunings'
       }
-
-      console.log('Tunings', tuningsMode)
     })
   }
 
-  async function handleTuningInputChange(event) {
+  function handleTuningInputChange(event) {
     event.preventDefault()
 
     tunings[event.target.dataset.href] = event.target.value.trim()
 
-    await chrome.storage.local.set({ tunings })
+    chrome.storage.local.set({ tunings })
   }
 
   async function init() {
@@ -198,10 +209,12 @@
     tunings = _tunings || {}
     tuningsMode = _tuningsMode || false
 
+    console.log('Tunings mode', tuningsMode)
+
     if (tuningsMode) {
-      document.body.classList.add('x-tunings-mode-off')
-    } else {
       document.body.classList.remove('x-tunings-mode-off')
+    } else {
+      document.body.classList.add('x-tunings-mode-off')
     }
 
     const app = buildApp()
