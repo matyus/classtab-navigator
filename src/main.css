@@ -10,7 +10,7 @@ body,
 
 #x-input {
   flex: 1;
-  margin: 1em;
+  margin: 1em 0;
 }
 
 #x-label {
@@ -25,9 +25,16 @@ body,
   align-items: baseline;
   background: white;
   margin: 0;
+  gap: 1em;
 }
 
+.x-tunings-mode-off .x-tuning {
+  display: none;
+}
+
+
 #x-app {
+  border-left: 2px solid outset;
   background: white;
   position: fixed;
   padding: 0.5em;
@@ -36,11 +43,18 @@ body,
   right: 0;
   width: 800px;
   display: grid;
-  grid-template-rows: min-content auto 10px;
+  gap: 0.5em;
+  grid-template-rows: min-content auto min-content;
 }
 
 #x-app[hidden] {
   display: none;
+}
+
+#x-selected {
+  font-size: 13px;
+  color: gray;
+  text-align: center;
 }
 
 #x-iframe {
@@ -48,7 +62,33 @@ body,
   align-self: stretch;
 }
 
-#x-credit:link {
+#x-footer a:link {
   text-decoration: none;
   font-size: 13px;
+}
+
+#x-footer :first-child {
+  display: flex;
+  justify-content: space-between;
+}
+
+#x-footer :last-child {
+  display: flex;
+  gap: 0.5em;
+}
+
+.x-tuning {
+  min-width: 7ch;
+  width: min-content;
+  field-sizing: content;
+  font-family: monospace;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  margin-right: 0.5em;
+  border: none;
+  color: gray;
+}
+
+.x-favorite {
+  background-color: chartreuse;
 }
