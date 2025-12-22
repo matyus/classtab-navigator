@@ -200,12 +200,10 @@
 
     if (tuningsMode) {
       document.body.classList.add('x-tunings-mode-off')
-      //document.getElementById('x-tunings-button').innerHTML = '◧'
     } else {
       document.body.classList.remove('x-tunings-mode-off')
-      //document.getElementById('x-tunings-button').innerHTML = '□'
     }
-    console.log(document.getElementById('x-tunings-button'))
+
     const app = buildApp()
     document.body.prepend(app)
   }

@@ -7,11 +7,9 @@ import { tunings } from './guitar_tunings.js'
     const app = document.getElementById('x-app')
 
     if (app.hidden) {
-      app.removeAttribute('hidden')
-      chrome.storage.local.set({ enabled: true });
+      chrome.storage.local.set({ enabled: true }, () => app.removeAttribute('hidden'))
     } else {
-      app.setAttribute('hidden', 'hidden')
-      chrome.storage.local.set({ enabled: false });
+      chrome.storage.local.set({ enabled: false }, () => app.setAttribute('hidden', 'hidden'))
     }
   }
 
@@ -33,7 +31,6 @@ import { tunings } from './guitar_tunings.js'
 
   async function init() {
     const storedTunings = await chrome.storage.local.get('tunings').tunings || {}
-    console.log({ storedTunings })
     
     if (Object.keys(storedTunings).length === 0) {
       const tuningsObject = tunings.reduce((acc, item) => {
