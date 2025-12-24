@@ -1,4 +1,4 @@
-(function() {
+(async function() {
   let enabled = false
   let tunings = {}
   let tuningsMode = false
@@ -31,7 +31,7 @@
     const input = document.createElement('input')
 
     input.value = tunings[path] ?? ''
-    input.dataset.href = path
+    input.name = path
     input.classList.add('x-tuning')
     input.addEventListener('keyup', handleTuningInputChange, false)
 
@@ -205,7 +205,7 @@
   function handleTuningInputChange(event) {
     event.preventDefault()
 
-    tunings[event.target.dataset.href] = event.target.value.trim()
+    tunings[event.target.name] = event.target.value.trim()
 
     chrome.storage.local.set({ tunings })
   }
@@ -217,9 +217,12 @@
     tunings = _tunings || {}
     tuningsMode = _tuningsMode || false
 
-    if (tuningsMode) {
-      document.body.classList.remove('x-tunings-mode-off')
-    } else {
+    if (Object.keys(tunings).length === 0) {
+      await chrome.runtime.sendMessage({ type: 'set_default_tunings' })
+      tunings = (await chrome.storage.local.get('tunings')).tunings || {}
+    }
+
+    if (!tuningsMode) {
       document.body.classList.add('x-tunings-mode-off')
     }
 
@@ -227,5 +230,5 @@
     document.body.prepend(app)
   }
 
-  init()
+  await init()
 })()
