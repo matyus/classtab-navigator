@@ -49,7 +49,7 @@
       const label = labels[anchor.href.replace('https://www.classtab.org/', '')]
 
       if (label) {
-        anchor.classList.remove('red', 'green', 'blue', 'yellow', 'purple')
+        anchor.classList.remove('x-label', 'red', 'green', 'blue', 'yellow', 'purple')
         anchor.classList.add('x-label', label)
       } 
 

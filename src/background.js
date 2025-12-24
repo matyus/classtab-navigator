@@ -22,9 +22,9 @@ function toggleApp() {
   }
 }
 
-chrome.action.onClicked.addListener(async ({ tabId }) => {
+chrome.action.onClicked.addListener(async ({ id }) => {
   chrome.scripting.executeScript({
-    target: { tabId },
+    target: { tabId: id },
     func: toggleApp
   });
 });
