@@ -22,9 +22,9 @@ function toggleApp() {
   }
 }
 
-chrome.action.onClicked.addListener(async (tab) => {
+chrome.action.onClicked.addListener(async ({ tabId }) => {
   chrome.scripting.executeScript({
-    target: { tabId: tab.id },
+    target: { tabId },
     func: toggleApp
   });
 });
@@ -38,8 +38,8 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
   }
 })
 
-chrome.runtime.onMessage.addListener(async (request, _sender, sendResponse) => {
-  if (request.type === 'set_default_tunings') {
+chrome.runtime.onMessage.addListener(async ({ type }, _sender, sendResponse) => {
+  if (type === 'set_default_tunings') {
     await chrome.storage.local.set({ tunings })
   }
 

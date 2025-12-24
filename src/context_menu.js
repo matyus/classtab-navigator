@@ -44,22 +44,18 @@ function createContextMenu() {
   })
 }
 
-chrome.runtime.onInstalled.addListener(() => {
-  createContextMenu()
-});
+chrome.runtime.onInstalled.addListener(() => createContextMenu())
+chrome.runtime.onStartup.addListener(() => createContextMenu())
 
-chrome.runtime.onStartup.addListener(() => {
-  createContextMenu()
-});
-
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.parentMenuItemId !== 'label-menu') return
+chrome.contextMenus.onClicked.addListener(async ({ parentMenuItemId, linkUrl, menuItemId }, tab) => {
+  if (parentMenuItemId !== 'label-menu') return
 
   const labels = (await chrome.storage.local.get('labels')).labels || {}
-  const path = info.linkUrl.replace('https://www.classtab.org/', '')
 
-  if (path.endsWith('.txt')) {
-    labels[path] = info.menuItemId
+  if (/http(.+)classtab.org(.+).txt/.test(linkUrl)) {
+    const path = linkUrl.replace('https://www.classtab.org/', '')
+
+    labels[path] = menuItemId
 
     await chrome.storage.local.set({ labels })
 

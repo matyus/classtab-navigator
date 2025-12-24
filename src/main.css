@@ -103,35 +103,49 @@ body,
 }
 
 #x-tunings-button::before {
-  content: '□';
-  margin-right: 0.25em;
-  font-size: 15px;
-  line-height: 1;
-}
-
-.x-tunings-mode-off #x-tunings-button::before {
   content: '◧';
   margin-right: 0.25em;
   font-size: 15px;
   line-height: 1;
 }
 
-.x-label.red {
+.x-tunings-mode-off #x-tunings-button::before {
+  content: '□';
+  margin-right: 0.25em;
+  font-size: 15px;
+  line-height: 1;
+}
+
+#x-labels-button::before {
+  content: '□';
+  margin-right: 0.25em;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.x-labels-mode-on #x-labels-button::before {
+  content: '■';
+  margin-right: 0.25em;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.x-labels-mode-on .x-label.red {
   background-color: #ffcccc;
 }
 
-.x-label.green {
+.x-labels-mode-on .x-label.green {
   background-color: #ccffcc;
 }
 
-.x-label.blue {
+.x-labels-mode-on .x-label.blue {
   background-color: #ccccff;
 }
 
-.x-label.yellow {
+.x-labels-mode-on .x-label.yellow {
   background-color: #ffffcc;
 }
 
-.x-label.purple {
+.x-labels-mode-on .x-label.purple {
   background-color: #ffccff;
 }

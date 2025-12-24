@@ -3,6 +3,7 @@
   let tunings = {}
   let tuningsMode = false
   let labels = {}
+  let labelsMode = false
 
   function convertAnchorToOption(anchor) {
     const option = document.createElement('option')
@@ -106,9 +107,15 @@
   function buildFooter() {
     const tuningsButton = document.createElement('button')
     tuningsButton.id = 'x-tunings-button'
-    tuningsButton.innerHTML = tuningsMode ? 'Hide tunings' : 'Show tunings'
+    tuningsButton.innerHTML = 'Tunings'
     tuningsButton.title = 'Toggle tunings mode'
     tuningsButton.addEventListener('click', handleTuningsClick, false)
+
+    const labelsButton = document.createElement('button')
+    labelsButton.id = 'x-labels-button'
+    labelsButton.innerHTML = 'Labels'
+    labelsButton.title = 'Toggle labels mode'
+    labelsButton.addEventListener('click', handleLabelsClick, false)
 
     const selected = buildAnchor({ href: '#', target: '_blank', name: '—', id: 'x-selected' })
     const sourceCode = buildAnchor({ href: 'https://github.com/matyus/classtab-navigator', target: '_blank', name: 'Source code' })
@@ -116,6 +123,7 @@
 
     const left = document.createElement('span')
     left.appendChild(tuningsButton)
+    left.appendChild(labelsButton)
     left.appendChild(selected)
 
     const right = document.createElement('span')
@@ -188,13 +196,17 @@
     tuningsMode = !tuningsMode
     
     chrome.storage.local.set({ tuningsMode }, () => {
-      if (tuningsMode) {
-        document.body.classList.remove('x-tunings-mode-off')
-        event.target.innerHTML = 'Hide tunings'
-      } else {
-        document.body.classList.add('x-tunings-mode-off')
-        event.target.innerHTML = 'Show tunings'
-      }
+      document.body.classList.toggle('x-tunings-mode-off', !tuningsMode)
+    })
+  }
+
+  function handleLabelsClick(event) {
+    event.preventDefault()
+
+    labelsMode = !labelsMode
+
+    chrome.storage.local.set({ labelsMode }, () => {
+      document.body.classList.toggle('x-labels-mode-on', labelsMode)
     })
   }
 
@@ -218,12 +230,19 @@
   }
 
   async function init() {
-    const { enabled: _enabled, tunings: _tunings, tuningsMode: _tuningsMode, labels: _labels } = await chrome.storage.local.get(['enabled', 'tunings', 'tuningsMode', 'labels'])
+    const { 
+      enabled: _enabled, 
+      tunings: _tunings, 
+      tuningsMode: _tuningsMode, 
+      labels: _labels,
+      labelsMode: _labelsMode
+    } = await chrome.storage.local.get(['enabled', 'tunings', 'tuningsMode', 'labels', 'labelsMode'])
 
     enabled = _enabled || false
     tunings = _tunings || {}
     tuningsMode = _tuningsMode || false
     labels = _labels || {}
+    labelsMode = _labelsMode || false
 
     if (Object.keys(tunings).length === 0) {
       await chrome.runtime.sendMessage({ type: 'set_default_tunings' })
@@ -234,16 +253,20 @@
       document.body.classList.add('x-tunings-mode-off')
     }
 
+    if (labelsMode) {
+      document.body.classList.add('x-labels-mode-on')
+    }
+
     const app = buildApp()
     document.body.prepend(app)
 
-    chrome.runtime.onMessage.addListener(async (request, _sender, _sendResponse) => {
-      if (request.type === 'set_label') {
-        const anchor = document.querySelector(`a[href="${request.path}"]`)
+    chrome.runtime.onMessage.addListener(async ({ type, path, label }) => {
+      if (type === 'set_label') {
+        const anchor = document.querySelector(`a[href="${path}"]`)
 
         if (anchor) {
           anchor.classList.remove('x-label', 'red', 'green', 'blue', 'yellow', 'purple')
-          anchor.classList.add('x-label', request.label)
+          anchor.classList.add('x-label', label)
         }
       }
     })
