@@ -2,6 +2,7 @@
   let enabled = false
   let tunings = {}
   let tuningsMode = false
+  let labels = {}
 
   function convertAnchorToOption(anchor) {
     const option = document.createElement('option')
@@ -44,6 +45,12 @@
 
     for (i = 0, l = anchors.length; i < l; i++) {
       const anchor = anchors[i]
+      const label = labels[anchor.href.replace('https://www.classtab.org/', '')]
+
+      if (label) {
+        anchor.classList.remove('red', 'green', 'blue', 'yellow', 'purple')
+        anchor.classList.add('x-label', label)
+      } 
 
       anchor.insertAdjacentElement('beforebegin', buildTuningInput(anchor))
       anchor.addEventListener('click', handleAnchorClick, false)
@@ -211,11 +218,12 @@
   }
 
   async function init() {
-    const { enabled: _enabled, tunings: _tunings, tuningsMode: _tuningsMode } = await chrome.storage.local.get(['enabled', 'tunings', 'tuningsMode'])
+    const { enabled: _enabled, tunings: _tunings, tuningsMode: _tuningsMode, labels: _labels } = await chrome.storage.local.get(['enabled', 'tunings', 'tuningsMode', 'labels'])
 
     enabled = _enabled || false
     tunings = _tunings || {}
     tuningsMode = _tuningsMode || false
+    labels = _labels || {}
 
     if (Object.keys(tunings).length === 0) {
       await chrome.runtime.sendMessage({ type: 'set_default_tunings' })
@@ -228,6 +236,17 @@
 
     const app = buildApp()
     document.body.prepend(app)
+
+    chrome.runtime.onMessage.addListener(async (request, _sender, _sendResponse) => {
+      if (request.type === 'set_label') {
+        const anchor = document.querySelector(`a[href="${request.path}"]`)
+
+        if (anchor) {
+          anchor.classList.remove('x-label', 'red', 'green', 'blue', 'yellow', 'purple')
+          anchor.classList.add('x-label', request.label)
+        }
+      }
+    })
   }
 
   await init()

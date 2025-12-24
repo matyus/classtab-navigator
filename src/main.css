@@ -116,7 +116,22 @@ body,
   line-height: 1;
 }
 
+.x-label.red {
+  background-color: #ffcccc;
+}
 
-.x-favorite {
-  background-color: chartreuse;
+.x-label.green {
+  background-color: #ccffcc;
+}
+
+.x-label.blue {
+  background-color: #ccccff;
+}
+
+.x-label.yellow {
+  background-color: #ffffcc;
+}
+
+.x-label.purple {
+  background-color: #ffccff;
 }

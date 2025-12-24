@@ -1,5 +1,6 @@
 console.log('background.js')
 
+import './context_menu.js'
 import { tunings } from './tunings.js'
 
 async function setDefaultTunings() {
